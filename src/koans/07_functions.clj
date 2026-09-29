@@ -1,40 +1,47 @@
-(ns koans.07-functions
+(ns koans.08-conditionals
   (:require [koan-engine.core :refer :all]))
 
-(defn multiply-by-ten [n]
-  (* 10 n))
-
-(defn square [n] (* n n))
+(defn explain-exercise-velocity [exercise-term]
+  (case exercise-term
+        :bicycling        "pretty fast"
+        :jogging          "not super fast"
+        :walking          "not fast at all"
+        "is that even exercise?"))
 
 (meditations
-  "Calling a function is like giving it a hug with parentheses"
-  (= 81 (square 9))
+  "You will face many decisions"
+  (= :a (if (false? (= 4 5))
+          :a
+          :b))
 
-  "Functions are usually defined before they are used"
-  (= 20 (multiply-by-ten 2))
+  "Some of them leave you no alternative"
+  (= [] (if (> 4 3)
+          []))
 
-  "But they can also be defined inline"
-  (= 10 ((fn [n] (* 5 n)) 2))
+  "And in such a situation you may have nothing"
+  (= nil (if (nil? 0)
+          [:a :b :c]))
 
-  "Or using an even shorter syntax"
-  (= 60 (#(* 15 %) 4))
+  "In others your alternative may be interesting"
+  (= :glory (if (not (empty? ()))
+              :doom
+              :glory))
 
-  "Even anonymous functions may take multiple arguments"
-  (= 15 (#(+ %1 %2 %3) 4 5 6))
+  "You may have a multitude of possible paths"
+  (let [x 5]
+    (= :your-road (cond (= x 1) :road-not-taken
+                        (= x 2) :another-road-not-taken
+                        :else :your-road)))
 
-  "Arguments can also be skipped"
-  (= "AACC" (#(str "AA" %2) "bb" "CC"))
+  "Or your fate may be sealed"
+  (= 'doom (if-not (zero? 1)
+          'doom
+          'more-doom))
 
-  "One function can beget another"
-  (= 9 (((fn [] +)) 4 5))
+  "In case of emergency, go fast"
+  (= "pretty fast"
+     (explain-exercise-velocity :bicycling))
 
-  "Functions can also take other functions as input"
-  (= 20 ((fn [f] (f 4 5))
-            *))
-
-  "Higher-order functions take function arguments"
-  (= 25 ((fn [f] (f 5))
-          (fn [n] (* n n))))
-
-  "But they are often better written using the names of functions"
-  (= 25 ((fn [f] (f 5)) square)))
+  "But admit it when you don't know what to do"
+  (= "is that even exercise?"
+     (explain-exercise-velocity :watching-tv)))
